@@ -1,0 +1,25 @@
+# Spring Boot properties
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/iotifydb
+    username: postgres
+    password: POSTgres2023
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    generate-ddl: true
+
+# Logging level for the relevant packages
+#logging:
+#  level:
+#    org.apache.coyote.http11: DEBUG
+#    org.springframework.web: DEBUG
+#    org.hibernate: DEBUG
+

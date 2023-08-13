@@ -1,0 +1,25 @@
+# Logs
+*.log
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build files
+/build/
+
+# Dependency directories
+# Yarn
+.yarn/
+
+# VS Code specific files
+.vscode/
+*.code-workspace
+
+# Environment variables
+.env
+
+# Compiled output
+/dist/

@@ -1,0 +1,42 @@
+# Java
+*.class
+
+# Compiled files
+/target/
+
+# Maven specific
+target/
+mvnw
+mvnw.cmd
+.vscode/
+
+# Logs
+*.log
+
+# IDE-specific files
+.idea/
+*.iml
+
+# Dependency directories
+# Gradle
+/.gradle
+/build/
+
+# Eclipse
+.classpath
+.project
+.settings/
+/.metadata
+
+# IntelliJ IDEA
+/out/
+/.idea
+/*.iml
+*.iws
+*.ipr
+
+# Spring Boot Devtools
+.restart
+
+# Spring Boot packaging
+/maven-wrapper.properties

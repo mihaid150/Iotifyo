@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { AppContext } from "../App";
+import { AppContext } from "../../../App";
 import { useNavigate, useLocation } from "react-router-dom";
 
 export const NavigationBar = () => {

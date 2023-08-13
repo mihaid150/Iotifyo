@@ -2,7 +2,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { useState, useEffect } from "react";
 import { useSensors } from "../../hooks/useSensors";
 
-export const SensorTypeDropdownButton = (props) => {
+export const UserSensorTypesDropdownButton = (props) => {
   const [selectedSensorType, setSelectedSensorType] =
     useState("Select sensor type");
   const { sensorName, onOptionTypeSelected, isOptionDataSelected } = props;
@@ -14,6 +14,7 @@ export const SensorTypeDropdownButton = (props) => {
     if (isOptionDataSelected) {
       fetchGetSensorType(sensorName);
     }
+    // eslint-disable-next-line
   }, [isOptionDataSelected]);
 
   const handleOptionSelect = (option) => {

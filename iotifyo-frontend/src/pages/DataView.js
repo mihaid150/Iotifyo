@@ -2,13 +2,13 @@ import { useState, useRef, useEffect } from "react";
 import { useGetData } from "../hooks/useGetData";
 import { useUserSensors } from "../hooks/useUserSensors";
 import { SensorDropdownButton } from "../components/DrowpdownButtons/SensorDropdownButton";
-import { SensorTypeDropdownButton } from "../components/SensorTypeDropdownButton";
+import { UserSensorTypesDropdownButton } from "../components/DrowpdownButtons/UserSensorTypesDropdownButton";
 import { DateDropdownButton } from "../components/DrowpdownButtons/DateDropdownButton";
-import LineChart from "../components/LineChart";
+import LineChart from "../components/Charts/LineChart";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import AutoCheckBox from "../components/AutoCheckBox";
+import { SimpleCheckBox } from "../components/CheckBoxes/SimpleCheckBox";
 
 export const DataView = () => {
   const [optionData, setOptionData] = useState("");
@@ -164,7 +164,6 @@ export const DataView = () => {
           <Col>Select the sensor</Col>
           <Col>Select the sensor type</Col>
           <Col>Select the day</Col>
-          <Col></Col>
         </Row>
         <br></br>
         <Row className="justify-content-md-center">
@@ -175,7 +174,7 @@ export const DataView = () => {
             />
           </Col>
           <Col>
-            <SensorTypeDropdownButton
+            <UserSensorTypesDropdownButton
               isOptionDataSelected={isOptionDataSelected}
               sensorName={optionData}
               onOptionTypeSelected={handleOptionTypeSelect}
@@ -187,11 +186,14 @@ export const DataView = () => {
               onOptionDateSelect={handleOptionDateSelect}
             />
           </Col>
-          <Col>
-            <AutoCheckBox onChangeOfCheck={setIsAutoUpdateGraphChecked} />
-          </Col>
         </Row>
       </Container>
+      <SimpleCheckBox
+          mainLabel="Auto update the Graph"
+          secondLabel="Activate the update"
+          id="autoUpdateGraph"
+          onChangeOfCheck={setIsAutoUpdateGraphChecked}
+        />
       <br></br>
       <LineChart chartData={userData} />
       <Container>

@@ -1,11 +1,7 @@
-import Dropdown from "react-bootstrap/Dropdown";
 import { useState, useEffect } from "react";
 import { useSensors } from "../hooks/useSensors";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
 import { useUserSensors } from "../hooks/useUserSensors";
+import { SensorAssociation } from "./Containers/SensorAssociation";
 
 export const AddUserSensor = () => {
   const [selectedOption, setSelectedOption] = useState("Select a sensor");
@@ -43,38 +39,12 @@ export const AddUserSensor = () => {
     <div>
       <h4>Sensor Association</h4>
       <br></br>
-      <Container>
-        <Row className="justify-content-md-center">
-          <Col>Associate with your account a new sensor</Col>
-          <Col>
-            <Dropdown>
-              <Dropdown.Toggle variant="secondary">
-                {selectedOption}
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu>
-                {sensors.map((sensor, index) => (
-                  <div key={index}>
-                    <Dropdown.Item onClick={() => handleOptionSelect(sensor)}>
-                      {sensor.sensor.sensorName}{" "}
-                      {sensor.sensor.sensorType.typeName}
-                    </Dropdown.Item>
-                  </div>
-                ))}
-              </Dropdown.Menu>
-            </Dropdown>
-          </Col>
-          <Col>
-            <Button
-              variant="primary"
-              size="sm-10"
-              onClick={handleAddUserSensor}
-            >
-              Add
-            </Button>
-          </Col>
-        </Row>
-      </Container>
+      <SensorAssociation
+        selectedOption={selectedOption}
+        sensors={sensors}
+        handleOptionSelect={handleOptionSelect}
+        handleAddUserSensor={handleAddUserSensor}
+      />
       <br></br>
     </div>
   );

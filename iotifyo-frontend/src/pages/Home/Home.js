@@ -1,5 +1,5 @@
 import "./Home.css";
-import { useUserSpecifications } from "../hooks/useUserSpecifications";
+import { useUserSpecifications } from "../../hooks/useUserSpecifications";
 import { useEffect, useState } from "react";
 
 export const Home = () => {

@@ -6,7 +6,7 @@ import { NavigationBar } from "./components/NavigationBar";
 import { Footer } from "./components/Footer";
 import { Authenticate } from "./pages/Authenticate";
 import { Register } from "./pages/Register";
-import { Home } from "./pages/Home";
+import { Home } from "./pages/Home/Home";
 import { DataView } from "./pages/DataView";
 import { Profile } from "./pages/Profile";
 import { Sensor } from "./pages/Sensor";

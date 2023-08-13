@@ -1,6 +1,6 @@
 import Dropdown from "react-bootstrap/Dropdown";
 import { useState, useEffect } from "react";
-import { useSensors } from "../hooks/useSensors";
+import { useSensors } from "../../hooks/useSensors";
 
 export const SensorTypeDropdownButton = (props) => {
   const [selectedSensorType, setSelectedSensorType] =

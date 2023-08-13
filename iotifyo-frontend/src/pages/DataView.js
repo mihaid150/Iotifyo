@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { useGetData } from "../hooks/useGetData";
 import { useUserSensors } from "../hooks/useUserSensors";
-import { SensorDropdownButton } from "../components/SensorDropdownButton";
+import { SensorDropdownButton } from "../components/DrowpdownButtons/SensorDropdownButton";
 import { SensorTypeDropdownButton } from "../components/SensorTypeDropdownButton";
-import { DateDropdownButton } from "../components/DateDropdownButton";
+import { DateDropdownButton } from "../components/DrowpdownButtons/DateDropdownButton";
 import LineChart from "../components/LineChart";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";

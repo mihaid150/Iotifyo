@@ -1,5 +1,5 @@
-import { AddUserSensor } from "../components/AddUserSensor";
-import { AddSensor } from "../components/AddSensor";
+import { AddUserSensor } from "../components/General/AddUserSensor";
+import { AddSensor } from "../components/General/AddSensor";
 
 export const Sensor = () => {
   return (

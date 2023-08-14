@@ -2,7 +2,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Dropdown from "react-bootstrap/Dropdown";
-import Button from "react-bootstrap/Button";
+import { SimpleButton } from "../Buttons/SimpleButton";
 
 export const SensorAssociation = (props) => {
   const { selectedOption, sensors, handleOptionSelect, handleAddUserSensor } =
@@ -32,13 +32,11 @@ export const SensorAssociation = (props) => {
             </Dropdown>
           </Col>
           <Col>
-            <Button
-              variant="primary"
-              size="sm-10"
-              onClick={handleAddUserSensor}
-            >
-              Add
-            </Button>
+            <SimpleButton
+              variant="small"
+              label="Add"
+              handleSubmit={handleAddUserSensor}
+            />
           </Col>
         </Row>
       </Container>

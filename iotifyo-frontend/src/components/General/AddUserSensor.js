@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { useSensors } from "../hooks/useSensors";
-import { useUserSensors } from "../hooks/useUserSensors";
-import { SensorAssociation } from "./Containers/SensorAssociation";
+import { useSensors } from "../../hooks/useSensors";
+import { useUserSensors } from "../../hooks/useUserSensors";
+import { SensorAssociation } from "../Containers/SensorAssociation";
 
 export const AddUserSensor = () => {
   const [selectedOption, setSelectedOption] = useState("Select a sensor");
@@ -15,17 +15,15 @@ export const AddUserSensor = () => {
     );
   };
 
-  const fetchGetSensors = async () => {
-    const sensors = await getSensors();
-    if (sensors) {
-      setSensors(sensors);
-    }
-  };
-
   useEffect(() => {
+    const fetchGetSensors = async () => {
+      const sensors = await getSensors();
+      if (sensors) {
+        setSensors(sensors);
+      }
+    };
     fetchGetSensors();
-    // eslint-disable-next-line
-  }, []);
+  }, [getSensors]);
 
   const handleAddUserSensor = async (e) => {
     e.preventDefault();

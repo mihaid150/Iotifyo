@@ -7,28 +7,26 @@ export const UserSensorTypesDropdownButton = (props) => {
     useState("Select sensor type");
   const { sensorName, onOptionTypeSelected, isOptionDataSelected } = props;
   const [typeNames, setTypeNames] = useState([]);
-
   const { getSensorType } = useSensors();
 
   useEffect(() => {
+    const fetchGetSensorType = async (sensorName) => {
+      const sensorType = await getSensorType(sensorName);
+      const sensorTypeArray = Array.isArray(sensorType)
+        ? sensorType
+        : [sensorType];
+      setTypeNames(sensorTypeArray);
+    };
     if (isOptionDataSelected) {
       fetchGetSensorType(sensorName);
     }
-    // eslint-disable-next-line
-  }, [isOptionDataSelected]);
+  }, [isOptionDataSelected, sensorName, getSensorType]);
 
   const handleOptionSelect = (option) => {
     setSelectedSensorType(option);
     onOptionTypeSelected(option);
   };
 
-  const fetchGetSensorType = async (sensorName) => {
-    const sensorType = await getSensorType(sensorName);
-    const sensorTypeArray = Array.isArray(sensorType)
-      ? sensorType
-      : [sensorType];
-    setTypeNames(sensorTypeArray);
-  };
   return (
     <Dropdown>
       <Dropdown.Toggle variant="secondary">

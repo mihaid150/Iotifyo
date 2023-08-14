@@ -1,7 +1,7 @@
-import { SensorsTypesDropdownButton } from '../DrowpdownButtons/SensorsTypesDropdownButton';
-import { OneFormControl } from './OneFormControl';
-import { SimpleCheckBox } from '../CheckBoxes/SimpleCheckBox';
-import { TwoFormsControl } from './TwoFormsControl';
+import { SensorsTypesDropdownButton } from "../DrowpdownButtons/SensorsTypesDropdownButton";
+import { OneFormControl } from "./OneFormControl";
+import { SimpleCheckBox } from "../CheckBoxes/SimpleCheckBox";
+import { TwoFormsControl } from "./TwoFormsControl";
 
 export const AddSensorFormsGroup = ({
   sensorType,
@@ -20,6 +20,7 @@ export const AddSensorFormsGroup = ({
         setSensorType={setSensorType}
       />
       <OneFormControl
+        hasSetup={false}
         label="Type the sensor name"
         type="text"
         id="sensorName"
@@ -44,6 +45,7 @@ export const AddSensorFormsGroup = ({
         setValue2={setMaximumRangeValue}
       />
       <OneFormControl
+        hasSetup={false}
         label="Unit of Measurement"
         type="text"
         id="unitOfMeasurement"
@@ -51,6 +53,7 @@ export const AddSensorFormsGroup = ({
         placeholder="Unit Of Measurement"
       />
       <OneFormControl
+        hasSetup={false}
         label="Any other useful information"
         type="text"
         id="otherDetails"

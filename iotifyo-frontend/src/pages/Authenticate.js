@@ -1,4 +1,4 @@
-import { AuthenticateComponent } from "../components/AuthenticateComponent";
+import { AuthenticateComponent } from "../components/General/AuthenticateComponent";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export const Authenticate = () => {

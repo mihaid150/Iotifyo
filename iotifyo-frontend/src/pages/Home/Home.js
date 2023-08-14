@@ -10,17 +10,15 @@ export const Home = () => {
 
   const { getUserSpecifications } = useUserSpecifications();
 
-  const fetchUserSpecifications = async () => {
-    const userSpecifications = await getUserSpecifications();
-    if (userSpecifications) {
-      setUserSpec(userSpecifications);
-    }
-  };
-
   useEffect(() => {
+    const fetchUserSpecifications = async () => {
+      const userSpecifications = await getUserSpecifications();
+      if (userSpecifications) {
+        setUserSpec(userSpecifications);
+      }
+    };
     fetchUserSpecifications();
-    // eslint-disable-next-line
-  }, []);
+  }, [getUserSpecifications]);
 
   return (
     <div>

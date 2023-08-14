@@ -1,10 +1,10 @@
 import Container from "react-bootstrap/Container";
 import { useState } from "react";
-import { useSensors } from "../hooks/useSensors";
-import Button from "react-bootstrap/Button";
-import { AddSensorFormsGroup } from "./Forms/AddSensorFormsGroup";
-
-// TODO: Finish the clean code process of this file
+import { useSensors } from "../../hooks/useSensors";
+import { SimpleButton } from "../Buttons/SimpleButton";
+import { AddSensorFormsGroup } from "../Forms/AddSensorFormsGroup";
+import { ErrorDiv } from "../Labels/ErrorDiv";
+import { SucceedDiv } from "../Labels/SucceedDiv";
 
 export const AddSensor = () => {
   const [sensorType, setSensorType] = useState("Sensor type");
@@ -16,14 +16,12 @@ export const AddSensor = () => {
   const [otherDetails, setOtherDetails] = useState("");
   const [succeedDiv, setSucceedDiv] = useState("");
   const [errorDiv, setErrorDiv] = useState("");
-
   const { addSensor } = useSensors();
 
   const handleAddSensor = async (e) => {
     e.preventDefault();
 
     const isActive = isSensorActive === "on" ? true : false;
-
     const sensor = {
       sensorType: sensorType,
       sensorName: sensorName,
@@ -36,19 +34,9 @@ export const AddSensor = () => {
 
     const response = await addSensor(sensor);
     if (response.status === 200 || response.status === 201) {
-      setSucceedDiv(
-        <div>
-          <br></br>
-          <div>Sensor saved</div>
-        </div>
-      );
+      setSucceedDiv(<SucceedDiv succeedType="sensorSaved" />);
     } else {
-      setErrorDiv(
-        <div>
-          <br></br>
-          <div>Sensor not saved</div>
-        </div>
-      );
+      setErrorDiv(<ErrorDiv errorType="sensorNotSaved" />);
     }
   };
 
@@ -68,9 +56,11 @@ export const AddSensor = () => {
           setOtherDetails={setOtherDetails}
         />
       </Container>
-      <Button variant="primary" size="sm-10" onClick={handleAddSensor}>
-        Add Sensor
-      </Button>
+      <SimpleButton
+        variant="small"
+        label="Add Sensor"
+        handleSubmit={handleAddSensor}
+      />
       <br></br>
       <br></br>
       {succeedDiv}

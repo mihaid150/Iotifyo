@@ -1,14 +1,48 @@
 import Dropdown from "react-bootstrap/Dropdown";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useGetData } from "../../hooks/useGetData";
 
 export const DateDropdownButton = (props) => {
   const [selectedOption, setSelectedOption] = useState("Select an option");
-  const { datesList, onOptionDateSelect } = props;
+  const {
+    datesList,
+    onOptionDateSelect,
+    optionData,
+    optionType,
+    isOptionDataSelected,
+    isOptionTypeSelected,
+    setSensorDates,
+    setIsOptionDataSelected,
+  } = props;
 
   const handleOptionSelect = (option) => {
     setSelectedOption(`${option.day}-${option.month}-${option.year}`);
     onOptionDateSelect(`${option.day}-${option.month}-${option.year}`);
   };
+  const { getDate } = useGetData();
+  useEffect(() => {
+    const fetchSensorsDates = async () => {
+      if (optionData !== null) {
+        const sensorDates = await getDate(optionData, optionType);
+        if (sensorDates) {
+          setSensorDates(sensorDates);
+        }
+      }
+    };
+
+    if (isOptionDataSelected && isOptionTypeSelected) {
+      fetchSensorsDates();
+      setIsOptionDataSelected(false);
+    }
+  }, [
+    getDate,
+    optionData,
+    optionType,
+    setSensorDates,
+    setIsOptionDataSelected,
+    isOptionDataSelected,
+    isOptionTypeSelected,
+  ]);
 
   return (
     <Dropdown>

@@ -9,17 +9,15 @@ export const SensorsTypesDropdownButton = (props) => {
   const [sensorsTypes, setSensorsTypes] = useState([]);
   const { getSensorsTypes } = useSensors();
 
-  const fetchGetSensorsTypes = async () => {
-    const sensorTypes = await getSensorsTypes();
-    if (sensorTypes) {
-      setSensorsTypes(sensorTypes);
-    }
-  };
-
   useEffect(() => {
+    const fetchGetSensorsTypes = async () => {
+      const sensorTypes = await getSensorsTypes();
+      if (sensorTypes) {
+        setSensorsTypes(sensorTypes);
+      }
+    };
     fetchGetSensorsTypes();
-    // eslint-disable-next-line
-  }, []);
+  }, [getSensorsTypes]);
 
   return (
     <div>

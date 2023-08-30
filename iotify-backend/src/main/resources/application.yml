@@ -16,6 +16,22 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     generate-ddl: true
 
+# Mail Service properties
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: iotifyoapp@gmail.com
+    password: uocfcvtkcqgkwhlo
+    default-encoding: utf-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    protocol: smtp
+    test-connection: false
+
 # Logging level for the relevant packages
 #logging:
 #  level:

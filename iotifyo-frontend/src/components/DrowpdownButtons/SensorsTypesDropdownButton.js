@@ -5,19 +5,23 @@ import { useSensors } from "../../hooks/useSensors";
 import { useState, useEffect } from 'react';
 
 export const SensorsTypesDropdownButton = (props) => {
+  const [isFetched, setIsFetched] = useState(false);
   const {sensorType, setSensorType} = props;
   const [sensorsTypes, setSensorsTypes] = useState([]);
   const { getSensorsTypes } = useSensors();
 
   useEffect(() => {
-    const fetchGetSensorsTypes = async () => {
-      const sensorTypes = await getSensorsTypes();
-      if (sensorTypes) {
-        setSensorsTypes(sensorTypes);
-      }
-    };
-    fetchGetSensorsTypes();
-  }, [getSensorsTypes]);
+    if(!isFetched) {
+      const fetchGetSensorsTypes = async () => {
+        const sensorTypes = await getSensorsTypes();
+        if (sensorTypes) {
+          setSensorsTypes(sensorTypes);
+          setIsFetched(true);
+        }
+      };
+      fetchGetSensorsTypes();
+    }
+  }, [isFetched, getSensorsTypes]);
 
   return (
     <div>

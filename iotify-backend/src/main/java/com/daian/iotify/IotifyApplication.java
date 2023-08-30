@@ -12,6 +12,7 @@ public class IotifyApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(IotifyApplication.class, args);
+
 	}
 
 	@Bean

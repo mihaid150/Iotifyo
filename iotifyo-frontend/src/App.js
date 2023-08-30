@@ -10,6 +10,7 @@ import { Home } from "./pages/Home/Home";
 import { DataView } from "./pages/DataView";
 import { Profile } from "./pages/Profile";
 import { Sensor } from "./pages/Sensor";
+import { ContactUs } from "./pages/ContactUs";
 
 export const AppContext = createContext();
 
@@ -42,6 +43,7 @@ function App() {
               <Route path="/dataview" element={<DataView />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/sensor" element={<Sensor />} />
+              <Route path="/contact-us" element={<ContactUs />} />
               <Route path="*" element={<h1>PAGE NOT FOUND</h1>} />
             </Routes>
             <Footer />

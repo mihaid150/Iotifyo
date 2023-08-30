@@ -19,6 +19,15 @@ export const ErrorDiv = ({ errorType }) => {
         </div>
       </>
     );
+  } else if (errorType === "mailNotSent") {
+    return (
+      <>
+        <div>
+          <br></br>
+          <div>Mail not sent</div>
+        </div>
+      </>
+    );
   } else {
     return null;
   }

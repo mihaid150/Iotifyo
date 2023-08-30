@@ -1,24 +1,27 @@
 import "./Home.css";
 import { useUserSpecifications } from "../../hooks/useUserSpecifications";
-import { useEffect, useState } from "react";
+import { useEffect, useState} from "react";
 
 export const Home = () => {
+  const [isFetched, setIsFetched] = useState(false);
   const [userSpec, setUserSpec] = useState({
     firstname: "",
     lastname: "",
   });
-
   const { getUserSpecifications } = useUserSpecifications();
 
   useEffect(() => {
-    const fetchUserSpecifications = async () => {
-      const userSpecifications = await getUserSpecifications();
-      if (userSpecifications) {
-        setUserSpec(userSpecifications);
-      }
-    };
-    fetchUserSpecifications();
-  }, [getUserSpecifications]);
+    if(!isFetched) {
+      const fetchUserSpecifications = async () => {
+        const userSpecifications = await getUserSpecifications();
+        if (userSpecifications) {
+          setUserSpec(userSpecifications);
+          setIsFetched(true);
+        }
+      };
+      fetchUserSpecifications();
+    }
+  },[getUserSpecifications, isFetched]);
 
   return (
     <div>

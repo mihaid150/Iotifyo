@@ -53,7 +53,6 @@ export const useGetData = () => {
           headers: headers,
         }
       );
-
       if (response.status === 200) {
         return response.data;
       } else {

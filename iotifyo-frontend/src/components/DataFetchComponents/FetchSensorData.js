@@ -7,6 +7,8 @@ export const FetchSensorData = (
   setUserSensors,
   setSensorData
 ) => {
+  const [areUserSensorsFetched, setAreUserSensorsFetched] = useState(false);
+  const [isSensorDataFetched, setIsSensorDataFetched] = useState(false);
   const [optionData, setOptionData] = useState("");
   const [optionType, setOptionType] = useState("");
   const [optionDate, setOptionDate] = useState({
@@ -32,11 +34,17 @@ export const FetchSensorData = (
   );
 
   useEffect(() => {
-    fetchUserSensors();
-  }, [fetchUserSensors]);
+    if(!areUserSensorsFetched) { 
+      fetchUserSensors();
+      setAreUserSensorsFetched(true); //
+    }
+  }, [fetchUserSensors, areUserSensorsFetched]);
   useEffect(() => {
-    fetchSensorsData();
-  }, [fetchSensorsData, isOptionDateSelected, isOptionTypeSelected]);
+    if(!isSensorDataFetched) {
+      fetchSensorsData();
+      setIsSensorDataFetched(true);
+    }
+  }, [isSensorDataFetched,fetchSensorsData, isOptionDateSelected, isOptionTypeSelected]);
 
   const handleOptionDataSelect = async (selectedOption) => {
     setOptionData(selectedOption);

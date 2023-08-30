@@ -8,6 +8,15 @@ export const SucceedDiv = ({ succeedType }) => {
         </div>
       </>
     );
+  } else if (succeedType === "mailSent") {
+    return (
+      <>
+        <div>
+          <br></br>
+          <div>Mail Sent</div>
+        </div>
+      </>
+    );
   } else {
     return null;
   }

@@ -1,4 +1,4 @@
-import App, { AppContext } from "../App";
+import { AppContext } from "../App";
 import { useContext } from "react";
 import { useState } from "react";
 import axios from "axios";

@@ -1,8 +1,9 @@
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { useUserSensors } from "../hooks/useUserSensors";
 
 export const useFetchUserSensors = (setUserSensors) => {
   const { getUserSensors } = useUserSensors();
+  const [isFetched, setIsFetched] = useState(false);
 
   const fetchUserSensors = useCallback(async () => {
     const userSensors = await getUserSensors();
@@ -11,12 +12,15 @@ export const useFetchUserSensors = (setUserSensors) => {
         .map((sensor) => sensor.sensor.sensorName)
         .filter((value, index, self) => self.indexOf(value) === index);
       setUserSensors(uniqueSensors);
+      setIsFetched(true);
     }
-  },[getUserSensors, setUserSensors]);
+  }, [getUserSensors, setUserSensors]);
 
   useEffect(() => {
-    fetchUserSensors();
-  }, [fetchUserSensors]);
+    if (!isFetched) {
+      fetchUserSensors();
+    }
+  }, [isFetched, fetchUserSensors]);
 
   return { fetchUserSensors };
 };

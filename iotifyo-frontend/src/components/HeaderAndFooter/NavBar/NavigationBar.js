@@ -62,6 +62,9 @@ export const NavigationBar = () => {
             {isAuthenticated && (
               <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
             )}
+            {isAuthenticated && (
+              <Nav.Link onClick={() => handleNavigate("/contact-us")}>Contact Us</Nav.Link>
+            )}
           </Nav>
         </Container>
       </Navbar>

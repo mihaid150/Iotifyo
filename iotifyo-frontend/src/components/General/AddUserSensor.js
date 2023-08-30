@@ -6,6 +6,7 @@ import { SensorAssociation } from "../Containers/SensorAssociation";
 export const AddUserSensor = () => {
   const [selectedOption, setSelectedOption] = useState("Select a sensor");
   const [sensors, setSensors] = useState([]);
+  const [ isFetched, setIsFetched] = useState(false);
   const { getSensors } = useSensors();
   const { addUserSensor } = useUserSensors();
 
@@ -16,14 +17,17 @@ export const AddUserSensor = () => {
   };
 
   useEffect(() => {
-    const fetchGetSensors = async () => {
-      const sensors = await getSensors();
-      if (sensors) {
-        setSensors(sensors);
-      }
-    };
-    fetchGetSensors();
-  }, [getSensors]);
+    if(!isFetched) {
+      const fetchGetSensors = async () => {
+        const sensors = await getSensors();
+        if (sensors) {
+          setSensors(sensors);
+          setIsFetched(true);
+        }
+      };
+      fetchGetSensors();
+    }
+  }, [getSensors, isFetched]);
 
   const handleAddUserSensor = async (e) => {
     e.preventDefault();

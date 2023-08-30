@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useSensors } from "../../hooks/useSensors";
 
 export const UserSensorTypesDropdownButton = (props) => {
+  const [isFetched, setIsFetched] = useState(false);
   const [selectedSensorType, setSelectedSensorType] =
     useState("Select sensor type");
   const { sensorName, onOptionTypeSelected, isOptionDataSelected } = props;
@@ -10,17 +11,20 @@ export const UserSensorTypesDropdownButton = (props) => {
   const { getSensorType } = useSensors();
 
   useEffect(() => {
-    const fetchGetSensorType = async (sensorName) => {
-      const sensorType = await getSensorType(sensorName);
-      const sensorTypeArray = Array.isArray(sensorType)
-        ? sensorType
-        : [sensorType];
-      setTypeNames(sensorTypeArray);
-    };
-    if (isOptionDataSelected) {
-      fetchGetSensorType(sensorName);
+    if(!isFetched) {
+      const fetchGetSensorType = async (sensorName) => {
+        const sensorType = await getSensorType(sensorName);
+        const sensorTypeArray = Array.isArray(sensorType)
+          ? sensorType
+          : [sensorType];
+        setTypeNames(sensorTypeArray);
+      };
+      if (isOptionDataSelected) {
+        fetchGetSensorType(sensorName);
+        setIsFetched(true);
+      }
     }
-  }, [isOptionDataSelected, sensorName, getSensorType]);
+  }, [isFetched, isOptionDataSelected, sensorName, getSensorType]);
 
   const handleOptionSelect = (option) => {
     setSelectedSensorType(option);

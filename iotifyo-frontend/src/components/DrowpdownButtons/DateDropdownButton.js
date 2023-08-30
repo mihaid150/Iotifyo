@@ -4,6 +4,7 @@ import { useGetData } from "../../hooks/useGetData";
 
 export const DateDropdownButton = (props) => {
   const [selectedOption, setSelectedOption] = useState("Select an option");
+  const [isFetched, setIsFetched] = useState(false);
   const {
     datesList,
     onOptionDateSelect,
@@ -21,20 +22,27 @@ export const DateDropdownButton = (props) => {
   };
   const { getDate } = useGetData();
   useEffect(() => {
-    const fetchSensorsDates = async () => {
-      if (optionData !== null) {
-        const sensorDates = await getDate(optionData, optionType);
-        if (sensorDates) {
-          setSensorDates(sensorDates);
-        }
-      }
-    };
+  
+    if(!isFetched) {
+      const fetchSensorsDates = async () => {
+        if (optionData !== null) {
+          const sensorDates = await getDate(optionData, optionType);
 
-    if (isOptionDataSelected && isOptionTypeSelected) {
-      fetchSensorsDates();
-      setIsOptionDataSelected(false);
+          if (sensorDates) {
+            setSensorDates(sensorDates);
+          }
+        }
+      };
+  
+      if (isOptionDataSelected && isOptionTypeSelected) {
+        fetchSensorsDates();
+        setIsOptionDataSelected(false);
+        setIsFetched(true);
+      }
     }
   }, [
+    datesList,
+    isFetched,
     getDate,
     optionData,
     optionType,

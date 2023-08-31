@@ -1,5 +1,7 @@
 package com.daian.iotify.auth;
 
+import com.daian.iotify.account.Account;
+import com.daian.iotify.account.AccountRepository;
 import com.daian.iotify.config.JWTService;
 import com.daian.iotify.mail.MailRequest;
 import com.daian.iotify.mail.MailService;
@@ -15,11 +17,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
     private final UserRepository userRepository;
+    private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
     private final JWTService jwtService;
     private final MailService mailService;
@@ -36,10 +40,16 @@ public class AuthenticationService {
                     .password(passwordEncoder.encode(request.getPassword()))
                     .role(Role.USER)
                     .build();
+            Account account = Account.builder()
+                    .isAccountActivated(false)
+                    .profileImageName(null)
+                    .user(user)
+                    .build();
             htmlContent = htmlContent.replace("{{firstname}}", user.getFirstname());
             htmlContent = htmlContent.replace("{{lastname}}", user.getLastname());
             MailRequest mailRequest = new MailRequest(false, request.getEmail(), "New Account Confirmation", htmlContent);
             userRepository.save(user);
+            accountRepository.save(account);
             String jwtToken = jwtService.generateToken(user);
             mailService.send(mailRequest, "/static/images/mail-background-image.png", jwtToken);
             return AuthenticationResponse
@@ -48,14 +58,29 @@ public class AuthenticationService {
                     .build();
         }
     }
-    public AuthenticationResponse authenticate(AuthenticationRequest request){
+    public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow();
-        String jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse
-                .builder()
-                .token(jwtToken)
-                .build();
+        Optional<Account> optionalAccount = accountRepository.findAccountByUser(user);
+        if (optionalAccount.isPresent()) {
+            Account account = optionalAccount.get();
+            if (Boolean.TRUE.equals(account.getIsAccountActivated())) {
+                String jwtToken = jwtService.generateToken(user);
+                return AuthenticationResponse
+                        .builder()
+                        .token(jwtToken)
+                        .build();
+            } else {
+                return AuthenticationResponse
+                        .builder()
+                        .token(null)
+                        .build();
+            }
+        } else {
+            return AuthenticationResponse
+                    .builder()
+                    .token(null)
+                    .build();
+        }
     }
-
 }

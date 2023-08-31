@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useGetData } from "../hooks/useGetData";
+import { useGetData } from "../../../hooks/useGetData";
 
 // Currently it is not used because the request was moved to the DateDropdownButton component
 

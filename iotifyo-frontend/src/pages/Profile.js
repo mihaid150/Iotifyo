@@ -1,7 +1,9 @@
+import { ProfileComponent } from "../components/General/ProfileComponent";
+
 export const Profile = () => {
   return (
     <div>
-      <h1>Profile page!</h1>
+      <ProfileComponent/>
     </div>
   );
 };

@@ -37,7 +37,7 @@ public class SecurityConfiguration {
                     return corsConfiguration;
                 }))
                 .authorizeHttpRequests(authorize ->
-                    authorize.requestMatchers("/iotify/auth/**").permitAll().requestMatchers("/iotify/gmail/**").permitAll()
+                    authorize.requestMatchers("/iotify/auth/**").permitAll()
                             .anyRequest().authenticated()
                 )
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

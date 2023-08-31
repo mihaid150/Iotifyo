@@ -1,5 +1,5 @@
 import { useEffect, useCallback, useState } from "react";
-import { useUserSensors } from "../hooks/useUserSensors";
+import { useUserSensors } from "../../../hooks/useUserSensors";
 
 export const useFetchUserSensors = (setUserSensors) => {
   const { getUserSensors } = useUserSensors();

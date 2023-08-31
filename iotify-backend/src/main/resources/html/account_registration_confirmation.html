@@ -27,10 +27,16 @@
         }
 
         .activation-link {
+            display: inline-block;
             background-color: #007bff;
             color: #fff;
             padding: 10px 20px;
             border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .activation-link:hover {
+            background-color: #0056b3;
         }
 
         img {
@@ -48,6 +54,6 @@
 <p style="color: #666; text-align: center;">Your account has been created successfully.</p>
 <p style="color: #666; text-align: center;">Your first name is: <b style="color: #000;">{{firstname}}</b></p>
 <p style="color: #666; text-align: center;">Your last name is: <b style="color: #000;">{{lastname}}</b></p>
-<p style="color: #666; text-align: center;">Please click on the following link to activate your account: <br><br><a href="{{activation_url}}" class="activation-link">Activate Account</a></p>
+<p style="color: #666; text-align: center;">Please click on the following link to activate your account: <br><br><a href='http://mihaiddomain150.go.ro:3000/account-confirmation' class="activation-link">Activate Account</a></p>
 </body>
 </html>

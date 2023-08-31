@@ -1,7 +1,7 @@
 import { DataAutoFetch } from "./DataAutoFetch";
 import { useEffect, useState } from "react";
-import { useFetchUserSensors } from "../../fetchers/useFetchUserSensors";
-import { useFetchSensorsData } from "../../fetchers/useFetchSensorsData";
+import { useFetchUserSensors } from "./fetchers/useFetchUserSensors";
+import { useFetchSensorsData } from "./fetchers/useFetchSensorsData";
 
 export const FetchSensorData = (
   setUserSensors,

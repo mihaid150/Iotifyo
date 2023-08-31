@@ -1,5 +1,5 @@
 import { useEffect, useCallback } from "react";
-import { useGetData } from "../hooks/useGetData";
+import { useGetData } from "../../../hooks/useGetData";
 
 export const useFetchSensorsData = (
   optionData,

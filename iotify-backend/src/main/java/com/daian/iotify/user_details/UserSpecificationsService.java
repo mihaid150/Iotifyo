@@ -20,13 +20,16 @@ public class UserSpecificationsService {
     public UserSpecificationsResponse getUserSpecifications(String token){
         UserDetails userDetails = userDetailsService.loadUserByUsername(jwtService.extractUsername(token));
         if(jwtService.isTokenValid(token, userDetails)){
-            Optional<User> user = userRepository.findByEmail(jwtService.extractUsername(token));
-            return UserSpecificationsResponse
-                    .builder()
-                    .email(user.get().getEmail())
-                    .firstname(user.get().getFirstname())
-                    .lastname(user.get().getLastname())
-                    .build();
+            Optional<User> optionalUser = userRepository.findByEmail(jwtService.extractUsername(token));
+            if(optionalUser.isPresent()) {
+                User user = optionalUser.get();
+                return UserSpecificationsResponse
+                        .builder()
+                        .email(user.getEmail())
+                        .firstname(user.getFirstname())
+                        .lastname(user.getLastname())
+                        .build();
+            }
         }
         return UserSpecificationsResponse
                 .builder()
@@ -34,5 +37,18 @@ public class UserSpecificationsService {
                 .firstname(null)
                 .lastname(null)
                 .build();
+    }
+
+    public void updateUserSpecifications(UserSpecificationsRequest request, String token) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(jwtService.extractUsername(token));
+        if(jwtService.isTokenValid(token, userDetails)) {
+            Optional<User> optionalUser = userRepository.findByEmail(jwtService.extractUsername(token));
+            if(optionalUser.isPresent()) {
+                User user = optionalUser.get();
+                user.setFirstname(request.getFirstname());
+                user.setLastname(request.getLastname());
+                userRepository.save(user);
+            }
+        }
     }
 }

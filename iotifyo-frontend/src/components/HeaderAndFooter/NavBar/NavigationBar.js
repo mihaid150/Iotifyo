@@ -1,25 +1,17 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Image from "react-bootstrap/Image";
 import { AppContext } from "../../../App";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useUserSpecifications } from "../../../hooks/useUserSpecifications";
-
-// TODO: create in BackgroundFetchers some components for fetching userSpecifications because these are also used here and in Home page
 
 export const NavigationBar = () => {
-  const [isFetched, setIsFetched] = useState(false);
-  const [userSpec, setUserSpec] = useState({
-    firstname: "",
-    lastname: "",
-  });
-  const { isAuthenticated, setIsAuthenticated, profileImageUrl } = useContext(AppContext);
+  const { isAuthenticated, setIsAuthenticated, profileImageUrl, userSpecs } =
+    useContext(AppContext);
   const sessionStorageWindow = window.sessionStorage;
   const navigate = useNavigate();
   const location = useLocation();
-  const { getUserSpecifications } = useUserSpecifications();
 
   const handleNavigate = (route) => {
     navigate(route);
@@ -37,24 +29,12 @@ export const NavigationBar = () => {
     }
   }, [location, setIsAuthenticated]);
 
-  useEffect(() => {
-    if(!isFetched) {
-      const fetchUserSpecifications = async () => {
-        const userSpecifications = await getUserSpecifications();
-        if (userSpecifications) {
-          setUserSpec(userSpecifications);
-          setIsFetched(true);
-        }
-      };
-      fetchUserSpecifications();
-    }
-  },[getUserSpecifications, isFetched]);
-
   const handleLogout = () => {
     sessionStorageWindow.removeItem("token");
     setIsAuthenticated(false);
     handleNavigate("/");
   };
+  console.log(userSpecs?.firstname);
 
   return (
     <>
@@ -101,18 +81,24 @@ export const NavigationBar = () => {
               </Nav.Link>
             )}
             {isAuthenticated && (
-            <div className="d-flex align-items-center">
-              <Image
-                src={profileImageUrl}
-                alt="User Profile"
-                roundedCircle
-                style={{  maxWidth:"50px", maxHeight:"35px",width: "auto", height: "auto", marginRight: "10px", marginLeft:"145px" }}
-              />
-              <span style={{ color: "white" }}>{userSpec?.firstname}</span>
-            </div>
-          )}
+              <div className="d-flex align-items-center">
+                <Image
+                  src={profileImageUrl}
+                  alt="User Profile"
+                  roundedCircle
+                  style={{
+                    maxWidth: "50px",
+                    maxHeight: "35px",
+                    width: "auto",
+                    height: "auto",
+                    marginRight: "10px",
+                    marginLeft: "145px",
+                  }}
+                />
+                <span style={{ color: "white" }}>{userSpecs.firstname}</span>
+              </div>
+            )}
           </Nav>
-          
         </Container>
       </Navbar>
       <br />

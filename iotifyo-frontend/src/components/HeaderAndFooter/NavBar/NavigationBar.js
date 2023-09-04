@@ -34,7 +34,6 @@ export const NavigationBar = () => {
     setIsAuthenticated(false);
     handleNavigate("/");
   };
-  console.log(userSpecs?.firstname);
 
   return (
     <>

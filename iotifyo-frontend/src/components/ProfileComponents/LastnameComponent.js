@@ -55,7 +55,7 @@ export const LastnameComponent = () => {
         <Col>
           <OneFormControl
             type="text"
-            id="email"
+            id="lastnameUpdate"
             setState={setLastname}
             placeholder={userSpecs?.lastname}
             hasSetup={true}

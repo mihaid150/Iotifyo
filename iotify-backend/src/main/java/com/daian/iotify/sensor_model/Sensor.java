@@ -23,7 +23,7 @@ public class Sensor {
     @Id
     @GeneratedValue
     private Integer id;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "sensor_type_id")
     private SensorType sensorType;
     private String sensorName;

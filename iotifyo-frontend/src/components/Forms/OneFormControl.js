@@ -19,6 +19,7 @@ export const OneFormControl = (props) => {
             setState(event.target.value);
           }}
           placeholder={placeholder}
+          autoComplete='new-password'
         />
       </div>
       <br></br>
@@ -38,6 +39,7 @@ export const OneFormControl = (props) => {
                 setState(event.target.value);
               }}
               placeholder={placeholder}
+              autoComplete='new-password'
             />
           </Col>
         </Row>

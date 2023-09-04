@@ -23,3 +23,10 @@ yarn-error.log*
 
 # Compiled output
 /dist/
+
+# XML files
+*.xml
+
+# IML files
+*.iml
+

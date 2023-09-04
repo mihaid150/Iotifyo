@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSensors } from "../../hooks/useSensors";
 import { useUserSensors } from "../../hooks/useUserSensors";
-import { SensorAssociation } from "../Containers/SensorAssociation";
+import { SensorAssociation } from "./SensorAssociation";
 
 export const AddUserSensor = () => {
   const [selectedOption, setSelectedOption] = useState("Select a sensor");

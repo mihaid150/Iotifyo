@@ -19,7 +19,7 @@ export const RegisterComponent = () => {
     e.preventDefault();
     const responseToken = await register(credentials);
     if (responseToken) {
-      console.log(responseToken);
+      alert("Your account was created. We have sent you a confirmation email.");
     }
   };
 

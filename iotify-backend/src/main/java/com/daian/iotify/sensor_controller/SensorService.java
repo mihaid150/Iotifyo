@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -53,7 +52,7 @@ public class SensorService {
                             .builder()
                             .sensor(sensor)
                             .build())
-                    .collect(Collectors.toList());
+                    .toList();
         }
         return Collections.emptyList();
     }
@@ -61,13 +60,11 @@ public class SensorService {
     public List<String> getSensorType(String sensorName, String token){
         UserDetails userDetails = userDetailsService.loadUserByUsername(jwtService.extractUsername(token));
         if(jwtService.isTokenValid(token, userDetails)){
-            List<Optional<Sensor>> sensorOptional = sensorRepository.findSensorBySensorName(sensorName);
-            long count = sensorOptional.stream().filter(Optional::isPresent).count();
-            if(count == sensorOptional.size()){
-                return sensorOptional
+            Optional<List<Sensor>> optionalSensors = sensorRepository.findSensorBySensorName(sensorName);
+            if(optionalSensors.isPresent()) {
+                List<Sensor> sensors = optionalSensors.get();
+                return sensors
                         .stream()
-                        .filter(Optional::isPresent)
-                        .map(Optional::get)
                         .map(Sensor::getSensorType)
                         .map(SensorType::getTypeName)
                         .toList();

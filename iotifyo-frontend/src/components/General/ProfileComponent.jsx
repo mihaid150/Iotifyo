@@ -4,6 +4,7 @@ import Container from "react-bootstrap/Container";
 import { FirstnameComponent } from "../ProfilePageComponents/FirstnameComponent";
 import { LastnameComponent } from "../ProfilePageComponents/LastnameComponent";
 import { PasswordComponent } from "../ProfilePageComponents/PasswordComponent";
+import { DeleteComponent} from "../ProfilePageComponents/DeleteComponent";
 
 export const ProfileComponent = () => {
   return (
@@ -15,6 +16,7 @@ export const ProfileComponent = () => {
         <PasswordComponent />
         <FirstnameComponent />
         <LastnameComponent />
+        <DeleteComponent />
       </Container>
     </>
   );

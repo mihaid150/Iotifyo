@@ -8,6 +8,7 @@ import org.hibernate.Hibernate;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -22,7 +23,7 @@ public class Sensor {
 
     @Id
     @GeneratedValue
-    private Integer id;
+    private UUID id;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "sensor_type_id")
     private SensorType sensorType;

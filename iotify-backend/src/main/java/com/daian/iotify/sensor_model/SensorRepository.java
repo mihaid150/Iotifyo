@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface SensorRepository extends JpaRepository<Sensor, Integer> {
-    List<Optional<Sensor>> findSensorBySensorName(String sensorName);
-    Optional<Sensor> findSensorBySensorNameAndAndSensorType(String sensorName, SensorType sensorType);
-    List<Optional<Sensor>> findSensorBySensorType(SensorType sensorType);
+    Optional<List<Sensor>> findSensorBySensorName(String sensorName);
+    Optional<Sensor> findSensorBySensorNameAndSensorType(String sensorName, SensorType sensorType);
 }

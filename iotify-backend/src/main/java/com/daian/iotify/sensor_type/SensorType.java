@@ -8,6 +8,7 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -21,7 +22,7 @@ public class SensorType {
 
     @Id
     @GeneratedValue
-    private Integer id;
+    private UUID id;
     private String typeName;
     private String typeDetails;
 

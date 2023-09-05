@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MailRequest {
-    private Boolean userEmails; // true when user sends an email form the app and false when receives
+    private Boolean userEmails; // true when the user sends an email form the app and false when receives
     private String recipientMail;
     private String subject;
     private String message;

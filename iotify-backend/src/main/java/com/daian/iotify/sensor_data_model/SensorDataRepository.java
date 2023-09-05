@@ -6,7 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
-public interface SensorDataRepository extends JpaRepository<SensorData, Integer> {
-    List<Optional<SensorData>> findSensorDataByUserAndSensor(User user, Sensor sensor);
+public interface SensorDataRepository extends JpaRepository<SensorData, UUID> {
+    Optional<List<SensorData>> findSensorDataByUserAndSensor(User user, Sensor sensor);
 }

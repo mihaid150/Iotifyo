@@ -1,5 +1,7 @@
 package com.daian.iotify.user_controller;
 
+import com.daian.iotify.account.Account;
+import com.daian.iotify.account.AccountRepository;
 import com.daian.iotify.config.JWTService;
 import com.daian.iotify.user.User;
 import com.daian.iotify.user.UserRepository;
@@ -15,6 +17,7 @@ import java.util.Optional;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final AccountRepository accountRepository;
     private final JWTService jwtService;
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
@@ -56,7 +59,12 @@ public class UserService {
     public void deleteUser(String token) {
         User user = getUser(token);
         if(user != null) {
-            userRepository.delete(user);
+            Optional<Account> optionalAccount = accountRepository.findAccountByUser(user);
+            if(optionalAccount.isPresent()) {
+                Account account = optionalAccount.get();
+                accountRepository.delete(account);
+                userRepository.delete(user);
+            }
         }
     }
 

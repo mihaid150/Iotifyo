@@ -126,5 +126,31 @@ export const useUser = () => {
     }
   };
 
-  return { getUserEmail, updateUserEmail, checkPassword, updatePassword };
+  const deleteUser = async () => {
+    try{
+      const encryptedToken = sessionStorageWindow.getItem("token");
+      const token = CryptoJS.AES.decrypt(encryptedToken, encryptionKey)
+          .toString(CryptoJS.enc.Utf8)
+          .replace(/"/g, "");
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      };
+      const response = await axios.get(
+          `http://${ip}/iotify/user/delete`, {
+            "headers": headers
+          });
+      if(response.status === 201) {
+        return response;
+      } else {
+        console.error("Error deleting the user");
+        return null;
+      }
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+  return { getUserEmail, updateUserEmail, checkPassword, updatePassword, deleteUser };
 };

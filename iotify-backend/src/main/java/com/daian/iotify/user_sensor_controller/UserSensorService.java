@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -35,7 +35,8 @@ public class UserSensorService {
             Optional<SensorType> sensorTypeOptional = sensorTypeRepository.findSensorTypeByTypeName(request.getTypeName());
             if(sensorTypeOptional.isPresent()) {
                 Optional<User> userOptional = userRepository.findByEmail(jwtService.extractUsername(token));
-                Optional<Sensor> sensorOptional = sensorRepository.findSensorBySensorNameAndAndSensorType(request.getSensorName(), sensorTypeOptional.get());
+                SensorType sensorType = sensorTypeOptional.get();
+                Optional<Sensor> sensorOptional = sensorRepository.findSensorBySensorNameAndSensorType(request.getSensorName(), sensorType);
                 if(userOptional.isPresent() && sensorOptional.isPresent()){
                     User user = userOptional.get();
                     Sensor sensor = sensorOptional.get();
@@ -55,14 +56,12 @@ public class UserSensorService {
         if(jwtService.isTokenValid(token, userDetails)){
             Optional<User> userOptional = userRepository.findByEmail(jwtService.extractUsername(token));
             if(userOptional.isPresent()){
-                int userId = userOptional.get().getId();
-                List<Optional<UserSensor>> optionalUserSensorsList = userSensorRepository.findByUserId(userId);
-                long count = optionalUserSensorsList.stream().filter(Optional::isPresent).count();
-                if(count == optionalUserSensorsList.size()){
-                    List<Sensor> sensorsList = optionalUserSensorsList
+                UUID userId = userOptional.get().getId();
+                Optional<List<UserSensor>> optionalUserSensorsList = userSensorRepository.findByUserId(userId);
+                if(optionalUserSensorsList.isPresent()){
+                    List<UserSensor> userSensors = optionalUserSensorsList.get();
+                    List<Sensor> sensorsList = userSensors
                             .stream()
-                            .filter(Optional::isPresent)
-                            .map(Optional::get)
                             .map(UserSensor::getSensor)
                             .toList();
                     return  sensorsList
@@ -71,9 +70,8 @@ public class UserSensorService {
                                     .builder()
                                     .sensor(sensor)
                                     .build())
-                            .collect(Collectors.toList());
+                            .toList();
                 }
-
             }
         }
         return Collections.emptyList();

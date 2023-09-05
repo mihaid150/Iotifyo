@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 @RequiredArgsConstructor
@@ -24,13 +26,15 @@ public class MailService {
     private final UserDetailsService userDetailsService;
     private final UserSpecificationsService userSpecificationsService;
     private final JWTService jwtService;
-
+    private static final Logger logger = Logger.getLogger(String.valueOf(MailService.class));
     public void send(MailRequest request, String topImagePath, String token) throws MessagingException, IOException {
         UserDetails userDetails = userDetailsService.loadUserByUsername(jwtService.extractUsername(token));
         if(jwtService.isTokenValid(token, userDetails)){
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper messageHelper = new MimeMessageHelper(message, true);
-            System.out.println(request.getUserEmails() + " " + jwtService.extractUsername(token));
+            if(logger.isLoggable(Level.INFO)) {
+                logger.info(request.getUserEmails() + " " + jwtService.extractUsername(token));
+            }
             messageHelper.setFrom("iotifyoapp@gmail.com");
             messageHelper.setTo(request.getRecipientMail());
             if(Boolean.TRUE.equals(request.getUserEmails())){ // enabled when user contacts us
@@ -44,8 +48,9 @@ public class MailService {
                 ClassPathResource resource = new ClassPathResource(topImagePath);
                 messageHelper.addInline("topImage", resource);
             }
+
             mailSender.send(message);
-            System.out.println(request.getMessage());
+            logger.info(request.getMessage());
         }
     }
 

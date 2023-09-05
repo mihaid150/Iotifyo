@@ -37,7 +37,8 @@ public class SensorDataService {
             Optional<SensorType> sensorTypeOptional = sensorTypeRepository.findSensorTypeByTypeName(typeName);
             if(sensorTypeOptional.isPresent()){
                 Optional<User> userOptional = userRepository.findByEmail(jwtService.extractUsername(token));
-                Optional<Sensor> sensorOptional = sensorRepository.findSensorBySensorNameAndAndSensorType(sensorName, sensorTypeOptional.get());
+                SensorType sensorType = sensorTypeOptional.get();
+                Optional<Sensor> sensorOptional = sensorRepository.findSensorBySensorNameAndSensorType(sensorName, sensorType);
                 if(userOptional.isPresent() && sensorOptional.isPresent()){
                     User user = userOptional.get();
                     Sensor sensor = sensorOptional.get();
@@ -58,29 +59,26 @@ public class SensorDataService {
         String formattedDate = date.substring(0, 3) + Character.toUpperCase(date.charAt(3)) + date.substring(4).toLowerCase();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMMM-yyyy", Locale.ENGLISH).withResolverStyle(ResolverStyle.SMART);
         LocalDate searchedDate = LocalDate.parse(formattedDate, formatter);
-
         UserDetails userDetails = userDetailsService.loadUserByUsername(jwtService.extractUsername(token));
         if(jwtService.isTokenValid(token, userDetails)) {
             Optional<SensorType> sensorTypeOptional = sensorTypeRepository.findSensorTypeByTypeName(typeName);
             if(sensorTypeOptional.isPresent()){
                 Optional<User> userOptional = userRepository.findByEmail(jwtService.extractUsername(token));
-                Optional<Sensor> sensorOptional = sensorRepository.findSensorBySensorNameAndAndSensorType(sensorName, sensorTypeOptional.get());
+                SensorType sensorType = sensorTypeOptional.get();
+                Optional<Sensor> sensorOptional = sensorRepository.findSensorBySensorNameAndSensorType(sensorName, sensorType);
                 if(userOptional.isPresent() && sensorOptional.isPresent()) {
                     User user = userOptional.get();
                     Sensor sensor = sensorOptional.get();
-                    List<Optional<SensorData>> sensorDataOptional = sensorDataRepository.findSensorDataByUserAndSensor(user, sensor);
-                    long count = sensorDataOptional.stream().filter(Optional::isPresent).count();
-                    if(count == sensorDataOptional.size()) {
-                        List<SensorData> sensorDataList = sensorDataOptional
+                    Optional<List<SensorData>> optionalSensorData = sensorDataRepository.findSensorDataByUserAndSensor(user, sensor);
+                    if(optionalSensorData.isPresent()){
+                        List<SensorData> sensorData = optionalSensorData.get()
                                 .stream()
-                                .filter(Optional::isPresent)
-                                .map(Optional::get)
                                 .filter(data ->
-                                            data.getDateTime().getDayOfMonth() == searchedDate.getDayOfMonth() &&
-                                            data.getDateTime().getMonth() == searchedDate.getMonth() &&
-                                            data.getDateTime().getYear() == searchedDate.getYear())
+                                        data.getDateTime().getDayOfMonth() == searchedDate.getDayOfMonth() &&
+                                                data.getDateTime().getMonth() == searchedDate.getMonth() &&
+                                                data.getDateTime().getYear() == searchedDate.getYear())
                                 .toList();
-                        return sensorDataList
+                        return sensorData
                                 .stream()
                                 .map(data -> SensorDataResponse
                                         .builder()
@@ -101,19 +99,15 @@ public class SensorDataService {
             Optional<SensorType> sensorTypeOptional = sensorTypeRepository.findSensorTypeByTypeName(typeName);
             if(sensorTypeOptional.isPresent()) {
                 Optional<User> userOptional = userRepository.findByEmail(jwtService.extractUsername(token));
-                Optional<Sensor> sensorOptional = sensorRepository.findSensorBySensorNameAndAndSensorType(sensorName, sensorTypeOptional.get());
+                SensorType sensorType = sensorTypeOptional.get();
+                Optional<Sensor> sensorOptional = sensorRepository.findSensorBySensorNameAndSensorType(sensorName, sensorType);
                 if(userOptional.isPresent() && sensorOptional.isPresent()) {
                     User user = userOptional.get();
                     Sensor sensor = sensorOptional.get();
-                    List<Optional<SensorData>> sensorDataOptional = sensorDataRepository.findSensorDataByUserAndSensor(user, sensor);
-                    long count = sensorDataOptional.stream().filter(Optional::isPresent).count();
-                    if(count == sensorDataOptional.size()){
-                        List<SensorData> sensorDataList = sensorDataOptional
-                                .stream()
-                                .filter(Optional::isPresent)
-                                .map(Optional::get)
-                                .toList();
-                        return sensorDataList
+                    Optional<List<SensorData>> optionalSensorData = sensorDataRepository.findSensorDataByUserAndSensor(user, sensor);
+                    if(optionalSensorData.isPresent()) {
+                        List<SensorData> sensorData = optionalSensorData.get();
+                        return sensorData
                                 .stream()
                                 .map(data -> DateResponse
                                         .builder()
@@ -122,12 +116,10 @@ public class SensorDataService {
                                         .year(data.getDateTime().getYear())
                                         .build())
                                 .collect(Collectors.toSet());
-
                     }
                 }
             }
         }
         return Collections.emptySet();
     }
-
 }

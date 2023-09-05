@@ -1,6 +1,5 @@
 package com.daian.iotify.user_controller;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,10 +8,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/iotify/user")
 @CrossOrigin(origins = {"http://192.168.0.101:3000", "http://mihaiddomain150.go.ro:3000", "http://localhost:3000"})
-@RequiredArgsConstructor
 public class UserController {
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/get-email")
     public ResponseEntity<String> getUserEmail(@RequestHeader("Authorization") String token) {
@@ -36,7 +38,7 @@ public class UserController {
         return  ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PostMapping("/delete")
+    @GetMapping("/delete")
     public ResponseEntity<Void> delete(@RequestHeader("Authorization") String token) {
         userService.deleteUser(token);
         return ResponseEntity.status(HttpStatus.CREATED).build();

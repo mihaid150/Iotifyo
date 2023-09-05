@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -31,7 +30,7 @@ public class SensorTypeService {
         }
     }
 
-    public List<SensorTypeResponse> getSensorsType(String token){
+    public List<SensorTypeResponse> getSensorType(String token){
        UserDetails userDetails = userDetailsService.loadUserByUsername(jwtService.extractUsername(token));
        if(jwtService.isTokenValid(token, userDetails)){
            List<SensorType> sensorTypes = sensorTypeRepository.findAll();
@@ -42,7 +41,7 @@ public class SensorTypeService {
                            .typeName(sensorType.getTypeName())
                            .typeDetails(sensorType.getTypeDetails())
                            .build())
-                   .collect(Collectors.toList());
+                   .toList();
        }
        return Collections.emptyList();
     }

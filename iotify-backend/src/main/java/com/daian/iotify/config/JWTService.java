@@ -17,16 +17,17 @@ import java.util.function.Function;
 @Service
 public class JWTService {
     private static final String SECRET_KEY = "4584521B3A3B2BBE3A03FB4666642A87D3E8EBCC659D9020B7CC716992EB538B";
+    private static final String BEARER_STRING = "Bearer ";
 
     public String extractUsername(String token) {
-        if(token.contains("Bearer ")){
+        if(token.contains(BEARER_STRING)){
             token = token.substring(7);
         }
         return extractClaim(token, Claims::getSubject);
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimResolver){
-        if(token.contains("Bearer ")){
+        if(token.contains(BEARER_STRING)){
             token = token.substring(7);
         }
         final Claims claims = extractAllClaims(token);
@@ -49,7 +50,7 @@ public class JWTService {
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails){
-        if(token.contains("Bearer ")){
+        if(token.contains(BEARER_STRING)){
             token = token.substring(7);
         }
         final String username = extractUsername(token);
@@ -57,21 +58,21 @@ public class JWTService {
     }
 
     private boolean isTokenExpired(String token){
-        if(token.contains("Bearer ")){
+        if(token.contains(BEARER_STRING)){
             token = token.substring(7);
         }
         return extractExpiration(token).before(new Date());
     }
 
     private Date extractExpiration(String token) {
-        if(token.contains("Bearer ")){
+        if(token.contains(BEARER_STRING)){
             token = token.substring(7);
         }
         return extractClaim(token, Claims::getExpiration);
     }
 
     private Claims extractAllClaims(String token){
-        if(token.contains("Bearer ")){
+        if(token.contains(BEARER_STRING)){
             token = token.substring(7);
         }
         return Jwts

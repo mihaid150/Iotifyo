@@ -22,7 +22,7 @@ function App() {
     "/5kyb/3jJRT7EtPKnwq5iMQ4O3iUFJFyYEmzLBLvwOouAMDd0alUr8bIiRkDKA+hdgRP94VUDYhVrH0DJyXsxLMLhMeb0ZleuVUPLZFMrAs=";
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [profileImageUrl, setProfileImageUrl] = useState("");
-  const ip = "localhost:8080"; // or localhost:8080 or 192.168.0.101 or mihaiddomain150.go.ro:8080
+  const ip = "mihaiddomain150.go.ro:8080"; // or localhost:8080 or 192.168.0.101 or mihaiddomain150.go.ro:8080
   
   const [userSpecs, setUserSpecs] = useState({
     firstname: "",

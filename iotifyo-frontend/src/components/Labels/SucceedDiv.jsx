@@ -17,6 +17,15 @@ export const SucceedDiv = ({ succeedType }) => {
         </div>
       </>
     );
+  } else if (succeedType === "sensorTypeSaved") {
+      return (
+          <>
+              <div>
+                  <br></br>
+                  <div>Sensor Type Saved</div>
+              </div>
+          </>
+      )
   } else {
     return null;
   }

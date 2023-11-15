@@ -43,4 +43,22 @@ public class UserController {
         userService.deleteUser(token);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @GetMapping("/delete-by-admin")
+    public ResponseEntity<Void> deleteByAdmin(@RequestBody String username) {
+        userService.deleteUserByAdmin(username);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PostMapping("/give-staff-by-admin")
+    public ResponseEntity<Void> setStaffByAdmin(@RequestBody String username) {
+        userService.setStaffByAdmin(username);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PostMapping("/give-user-by-admin")
+    public ResponseEntity<Void> setUserByAdmin(@RequestBody String username) {
+        userService.setUserByAdmin(username);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
 }

@@ -56,6 +56,9 @@ public class SensorDataService {
     }
 
     public List<SensorDataResponse> getSensorDataList(String date, String sensorName, String typeName, String token) {
+        if(date.charAt(1) == '-') {
+            date = "0" + date;
+        }
         String formattedDate = date.substring(0, 3) + Character.toUpperCase(date.charAt(3)) + date.substring(4).toLowerCase();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMMM-yyyy", Locale.ENGLISH).withResolverStyle(ResolverStyle.SMART);
         LocalDate searchedDate = LocalDate.parse(formattedDate, formatter);

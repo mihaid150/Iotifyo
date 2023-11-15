@@ -7,7 +7,7 @@ import { ErrorDiv } from "../Labels/ErrorDiv";
 import { SucceedDiv } from "../Labels/SucceedDiv";
 
 export const AddSensor = () => {
-  const [sensorType, setSensorType] = useState("Sensor type");
+  const [sensorType, setSensorType] = useState("Sensors type");
   const [sensorName, setSensorName] = useState("");
   const [isSensorActive, setIsSensorActive] = useState(false);
   const [minimumRangeValue, setMinimumRangeValue] = useState(0.0);
@@ -42,7 +42,7 @@ export const AddSensor = () => {
 
   return (
     <div>
-      <h4>Sensor Registration</h4>
+      <h4>Sensors Registration</h4>
       <br></br>
       <Container>
         <AddSensorFormsGroup
@@ -58,7 +58,7 @@ export const AddSensor = () => {
       </Container>
       <SimpleButton
         variant="small"
-        label="Add Sensor"
+        label="Add Sensors"
         handleSubmit={handleAddSensor}
       />
       <br></br>

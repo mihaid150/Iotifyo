@@ -3,6 +3,7 @@ package com.daian.iotify.user_controller;
 import com.daian.iotify.account.Account;
 import com.daian.iotify.account.AccountRepository;
 import com.daian.iotify.config.JWTService;
+import com.daian.iotify.user.Role;
 import com.daian.iotify.user.User;
 import com.daian.iotify.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -65,6 +66,37 @@ public class UserService {
                 accountRepository.delete(account);
                 userRepository.delete(user);
             }
+        }
+    }
+
+    public void deleteUserByAdmin(String username) {
+        Optional<User> optionalUser = userRepository.findByEmail(username);
+        if(optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            Optional<Account> optionalAccount = accountRepository.findAccountByUser(user);
+            if(optionalAccount.isPresent()) {
+                Account account = optionalAccount.get();
+                accountRepository.delete(account);
+                userRepository.delete(user);
+            }
+        }
+    }
+
+    public void setStaffByAdmin(String username) {
+        Optional<User> optionalUser = userRepository.findByEmail(username);
+        if(optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setRole(Role.STAFF);
+            userRepository.save(user);
+        }
+    }
+
+    public void setUserByAdmin(String username) {
+        Optional<User> optionalUser = userRepository.findByEmail(username);
+        if(optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setRole(Role.USER);
+            userRepository.save(user);
         }
     }
 

@@ -152,5 +152,84 @@ export const useUser = () => {
     }
   };
 
-  return { getUserEmail, updateUserEmail, checkPassword, updatePassword, deleteUser };
+  const deleteUserByAdmin = async (username) => {
+    try{
+      const encryptedToken = sessionStorageWindow.getItem("token");
+      const token = CryptoJS.AES.decrypt(encryptedToken, encryptionKey)
+          .toString(CryptoJS.enc.Utf8)
+          .replace(/"/g, "");
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      };
+      const response = await axios.get(
+          `http://${ip}/iotify/user/delete`, {username : username}, {
+            "headers": headers
+          });
+      if(response.status === 201) {
+        return response;
+      } else {
+        console.error("Error deleting the user by the admin");
+        return null;
+      }
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+  const assignStaffRole = async (username) => {
+    try {
+      const encryptedToken = sessionStorageWindow.getItem("token");
+      const token = CryptoJS.AES.decrypt(encryptedToken, encryptionKey)
+          .toString(CryptoJS.enc.Utf8)
+          .replace(/"/g, "");
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      };
+      const response = await axios.get(
+          `http://${ip}/iotify/user/give-staff-by-admin`, {username : username}, {
+            "headers": headers
+          });
+      if(response.status === 201) {
+        return response;
+      } else {
+        console.error("Error assigning staff role");
+        return null;
+      }
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  const assignUserRole = async (username) => {
+    try {
+      const encryptedToken = sessionStorageWindow.getItem("token");
+      const token = CryptoJS.AES.decrypt(encryptedToken, encryptionKey)
+          .toString(CryptoJS.enc.Utf8)
+          .replace(/"/g, "");
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      };
+      const response = await axios.get(
+          `http://${ip}/iotify/user/give-user-by-admin`, {username : username}, {
+            "headers": headers
+          });
+      if(response.status === 201) {
+        return response;
+      } else {
+        console.error("Error assigning user role");
+        return null;
+      }
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  return { getUserEmail, updateUserEmail, checkPassword, updatePassword,
+    deleteUser, deleteUserByAdmin, assignStaffRole, assignUserRole };
 };

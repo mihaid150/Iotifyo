@@ -13,7 +13,7 @@ const useAuthenticate = () => {
         `http://${ip}/iotify/auth/authenticate`,
         authenticateData
       );
-      return response.data.token;
+      return response.data;
     } catch (error) {
       setError(error.response.status);
       return null;

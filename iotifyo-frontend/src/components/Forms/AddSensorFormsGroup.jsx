@@ -25,7 +25,7 @@ export const AddSensorFormsGroup = ({
         type="text"
         id="sensorName"
         setState={setSensorName}
-        placeholder="Sensor Name"
+        placeholder="Sensors Name"
       />
       <SimpleCheckBox
         mainLabel="Is the sensor active?"

@@ -28,6 +28,13 @@ export const ErrorDiv = ({ errorType }) => {
         </div>
       </>
     );
+  } else if (errorType === "sensorTypeNotSaved") {
+      <>
+          <div>
+              <br></br>
+              <div>Sensor Type Not Saved</div>
+          </div>
+      </>
   } else {
     return null;
   }

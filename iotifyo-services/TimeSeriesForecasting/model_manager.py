@@ -6,6 +6,7 @@ from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.losses import MeanSquaredError
 from tensorflow.keras.metrics import RootMeanSquaredError
 from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.optimizers.schedules import ExponentialDecay
 from data_manager import get_processed_data
 # import matplotlib.pyplot as plt
 import os
@@ -17,18 +18,26 @@ tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
 x_train, y_train, x_val, y_val, x_test, y_test, n_input, n_features = get_processed_data()
 
+# Define the BiLSTM model
 model1 = Sequential()
 model1.add(InputLayer((n_input, n_features)))
-model1.add(LSTM(100, return_sequences=True))
-model1.add(LSTM(100, return_sequences=True))
-model1.add(LSTM(50))
+model1.add(Bidirectional(LSTM(100, return_sequences=True)))
+model1.add(Bidirectional(LSTM(100, return_sequences=True)))
+model1.add(Bidirectional(LSTM(50)))
 model1.add(Dense(8, activation='relu'))
 model1.add(Dense(1, activation='linear'))
 model1.summary()
 
 early_stop = EarlyStopping(monitor='val_loss', patience=2)
+
+learning_schedule = ExponentialDecay(
+    initial_learning_rate=0.001,
+    decay_steps=10000,
+    decay_rate=0.9
+)
+
 model1.compile(loss=MeanSquaredError(),
-               optimizer=Adam(learning_rate=0.0001),
+               optimizer=Adam(learning_rate=learning_schedule),
                metrics=RootMeanSquaredError())
 model1.fit(x_train, y_train,
            validation_data=(x_val, y_val),

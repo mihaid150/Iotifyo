@@ -2,6 +2,7 @@ import pandas as pd
 from data_manager import get_processed_data
 from tensorflow.keras.models import load_model
 import os
+import matplotlib.pyplot as plt
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 # # Load model
@@ -19,7 +20,9 @@ for i in range(len(x_test)):
 
 test_predictions_df1 = pd.DataFrame({'X_test': list(x_test_list),
                                      'LSTM Prediction': list(test_predictions)})
-
+test_predictions_df1['X_test'] = test_predictions_df1['X_test'].apply(lambda x: float(str(x).strip('[]')))
 # Save the DataFrame to a text file
 test_predictions_df1.to_csv('test_predictions.txt', index=False, sep='\t')
-
+# test_predictions_df1.plot(figsize=(14, 5))
+test_predictions_df1[(len(x_test) - 720):].plot(figsize=(15, 5))
+plt.show()

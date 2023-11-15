@@ -17,21 +17,28 @@ export const AuthenticateComponent = () => {
   const { authenticate, error } = useAuthenticate();
   const navigate = useNavigate();
   const sessionStorageWindow = window.sessionStorage;
-  const { encryptionKey, setIsAuthenticated } = useContext(AppContext);
+  const { encryptionKey, setIsAuthenticated, setIsAdmin } = useContext(AppContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const responseToken = await authenticate(credentials);
-    if (responseToken) {
+    const response = await authenticate(credentials);
+    if (response.token) {
       const encryptedToken = CryptoJS.AES.encrypt(
-        JSON.stringify(responseToken),
+        JSON.stringify(response.token),
         encryptionKey
       ).toString();
       sessionStorageWindow.setItem("token", encryptedToken);
       //const decryptedToken = CryptoJS.AES.decrypt(encryptedToken, encryptionKey).toString(CryptoJS.enc.Utf8).replace(/"/g, "");
       setIsAuthenticated(true);
-      navigate("/home");
+      if(response.isAdmin) {
+        setIsAdmin(true)
+        localStorage.setItem("isAdmin", "true")
+        navigate("/admin-console")
+      } else {
+        setIsAdmin(false);
+        navigate("/home");
+      }
     }
   };
 

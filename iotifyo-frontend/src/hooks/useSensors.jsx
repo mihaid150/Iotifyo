@@ -116,5 +116,35 @@ export const useSensors = () => {
     }
   };
 
-  return { getSensors, getSensorsTypes, addSensor, getSensorType };
+  const addSensorType = async (type) => {
+    try {
+      const encryptedToken = sessionStorageWindow.getItem("token");
+      const token = CryptoJS.AES.decrypt(encryptedToken, encryptionKey)
+          .toString(CryptoJS.enc.Utf8)
+          .replace(/"/g, "");
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      };
+
+      const response = await axios.post(
+          `http://${ip}/iotify/sensors-types/save`,
+          type,
+          {
+            headers: headers,
+          }
+      );
+      if (response.status === 201) {
+        return response;
+      } else {
+        console.error("Error getting sensors type");
+        return null;
+      }
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+  return { getSensors, getSensorsTypes, addSensor, getSensorType, addSensorType };
 };

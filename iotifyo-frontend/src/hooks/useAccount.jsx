@@ -63,5 +63,92 @@ export const useAccount = () => {
       return null;
     }
   };
-  return { saveProfileImageName, getProfileImageName };
+
+  const getAllAccounts = async () => {
+    try {
+      const encryptedToken = sessionStorageWindow.getItem("token");
+      const token = CryptoJS.AES.decrypt(encryptedToken, encryptionKey)
+          .toString(CryptoJS.enc.Utf8)
+          .replace(/"/g, "");
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      };
+      const response = await axios.get(
+          `http://${ip}/iotify/account/get-all-accounts`,
+          {
+            headers: headers,
+          }
+      );
+      if(response.status === 200 || response.status === 201) {
+        return response.data;
+      } else {
+        console.error("Error getting all accounts");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error getting all accounts");
+      return null;
+    }
+  }
+
+  const activateAccount = async (username) => {
+    try{
+      const encryptedToken = sessionStorageWindow.getItem("token");
+      const token = CryptoJS.AES.decrypt(encryptedToken, encryptionKey)
+          .toString(CryptoJS.enc.Utf8)
+          .replace(/"/g, "");
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      };
+      const response = await axios.post(
+          `http://${ip}/iotify/account/activate-account`,
+          username,
+          {
+            headers: headers,
+          }
+      );
+      if (response.status === 200 || response.status === 201) {
+        return response;
+      } else {
+        console.error("Error activating the account");
+        return null;
+      }
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  const deactivateAccount = async (username) => {
+    try{
+      const encryptedToken = sessionStorageWindow.getItem("token");
+      const token = CryptoJS.AES.decrypt(encryptedToken, encryptionKey)
+          .toString(CryptoJS.enc.Utf8)
+          .replace(/"/g, "");
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      };
+      const response = await axios.post(
+          `http://${ip}/iotify/account/deactivate-account`,
+          username,
+          {
+            headers: headers,
+          }
+      );
+      if (response.status === 200 || response.status === 201) {
+        return response;
+      } else {
+        console.error("Error deactivating the account");
+        return null;
+      }
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  return { saveProfileImageName, getProfileImageName, getAllAccounts, activateAccount, deactivateAccount };
 };

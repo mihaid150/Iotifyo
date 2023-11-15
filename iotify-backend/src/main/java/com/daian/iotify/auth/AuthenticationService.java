@@ -69,6 +69,7 @@ public class AuthenticationService {
                 return AuthenticationResponse
                         .builder()
                         .token(jwtToken)
+                        .isAdmin(user.getRole().equals(Role.ADMIN) ? Boolean.TRUE : Boolean.FALSE)
                         .build();
             } else {
                 return AuthenticationResponse

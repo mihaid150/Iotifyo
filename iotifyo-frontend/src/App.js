@@ -7,10 +7,13 @@ import { Footer } from "./components/HeaderAndFooter/Footer/Footer";
 import { Authenticate } from "./pages/Authenticate";
 import { Register } from "./pages/Register";
 import { Home } from "./pages/Home/Home";
-import { DataView } from "./pages/DataView";
+import { SensorDataView } from "./pages/SensorDataView";
 import { Profile } from "./pages/Profile";
-import { Sensor } from "./pages/Sensor";
+import { Sensors } from "./pages/Sensors";
+import { Controllers} from "./pages/Controllers";
+import { ControllersBoard } from "./pages/ControllersBoard";
 import { ContactUs } from "./pages/ContactUs";
+import { AdminConsole } from "./pages/Admin/AdminConsole";
 import { AccountConfirmation } from "./pages/AccountConfirmation";
 import { FetchProfileImageComponent } from "./components/BackgroundFetchers/FetchProfileImageComponent";
 import { FetchUserSpecsComponent } from "./components/BackgroundFetchers/FetchUserSpecsComponent";
@@ -20,9 +23,11 @@ export const AppContext = createContext();
 function App() {
   const encryptionKey =
     "/5kyb/3jJRT7EtPKnwq5iMQ4O3iUFJFyYEmzLBLvwOouAMDd0alUr8bIiRkDKA+hdgRP94VUDYhVrH0DJyXsxLMLhMeb0ZleuVUPLZFMrAs=";
+  const [isAdmin, setIsAdmin] = useState(localStorage.getItem("isAdmin") === "true");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [profileImageUrl, setProfileImageUrl] = useState("");
-  const ip = "mihaiddomain150.go.ro:8080"; // or localhost:8080 or 192.168.0.101 or mihaiddomain150.go.ro:8080
+  const ip = "localhost:8080"; // or localhost:8080 or 192.168.0.101 or mihaiddomain150.go.ro:8080
+
   
   const [userSpecs, setUserSpecs] = useState({
     firstname: "",
@@ -52,6 +57,8 @@ function App() {
             setUserSpecs,
             newUserSpecs,
             setNewUserSpecs,
+            setIsAdmin,
+            isAdmin
           }}
         >
           <FetchProfileImageComponent />
@@ -60,16 +67,18 @@ function App() {
             <NavigationBar />
             <Routes>
               <Route path="/" element={<Authenticate />} />
-              <Route
-                path="/account-confirmation"
-                element={<AccountConfirmation />}
-              />
+              <Route path="/account-confirmation" element={<AccountConfirmation />} />
               <Route path="/register" element={<Register />} />
               <Route path="/home" element={<Home />} />
-              <Route path="/dataview" element={<DataView />} />
+              <Route path="/sensors-data" element={<SensorDataView />} />
               <Route path="/profile" element={<Profile />} />
-              <Route path="/sensor" element={<Sensor />} />
+              <Route path="/sensors" element={<Sensors />} />
+              <Route path="/controllers" element={<Controllers />} />
+              <Route path="/controllers-board" element={<ControllersBoard />} />
               <Route path="/contact-us" element={<ContactUs />} />
+                {isAdmin && (
+                    <Route path="/admin-console" element={<AdminConsole />} />
+                )}
               <Route path="*" element={<h1>PAGE NOT FOUND</h1>} />
             </Routes>
             <Footer />

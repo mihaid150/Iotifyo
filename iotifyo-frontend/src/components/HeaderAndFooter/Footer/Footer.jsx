@@ -7,7 +7,7 @@ export const Footer =() =>{
       <div className='text-center p-3' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
         &copy; {new Date().getFullYear()} Copyright:{' '}
         <a className='text-dark' href='http://mihaiddomain150.go.ro:3000/'>
-          Iotifyo version 0.10
+          Iotifyo version 0.12
         </a>
       </div>
     </MDBFooter>

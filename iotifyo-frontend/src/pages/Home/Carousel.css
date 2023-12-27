@@ -1,0 +1,12 @@
+.carousel-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 400px; /* Adjust height as needed */
+}
+
+.carousel-image {
+    height: 100%;
+    width: 100%;
+    /* Remove width and height auto if you want the image to scale within the container */
+}

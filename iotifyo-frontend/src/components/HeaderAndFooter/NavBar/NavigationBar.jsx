@@ -62,22 +62,22 @@ export const NavigationBar = () => {
                   Profile
                 </Nav.Link>
             )}
-            {isAuthenticated && !isAdmin && (
+            {isAuthenticated && !isAdmin &&(
                 <Nav.Link onClick={() => handleNavigate("/sensors")}>
                   Sensors
                 </Nav.Link>
             )}
-            {isAuthenticated && !isAdmin && (
+            {isAuthenticated && !isAdmin &&(
               <Nav.Link onClick={() => handleNavigate("/sensors-data")}>
                 Sensors Data
               </Nav.Link>
             )}
-            {isAuthenticated && !isAdmin && (
+            {isAuthenticated && !isAdmin &&(
                 <Nav.Link onClick={() => handleNavigate("/controllers")}>
                   Controllers
                 </Nav.Link>
             )}
-            {isAuthenticated && !isAdmin && (
+            {isAuthenticated && !isAdmin &&(
                 <Nav.Link onClick={() => handleNavigate("/controllers-board")}>
                   Controllers Board
                 </Nav.Link>
@@ -85,7 +85,7 @@ export const NavigationBar = () => {
             {isAuthenticated && (
               <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
             )}
-            {isAuthenticated && !isAdmin && (
+            {isAuthenticated && !isAdmin &&(
               <Nav.Link onClick={() => handleNavigate("/contact-us")}>
                 Contact Us
               </Nav.Link>

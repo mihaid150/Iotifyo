@@ -1,0 +1,23 @@
+/* CSS file */
+.clickable {
+    cursor: pointer;
+}
+
+.header-light-non-sticky {
+    color: white; /* White text color when the header is not sticky */
+    background-color: #444;
+}
+
+.header-dark {
+    background-color: #333; /* Dark background for light theme */
+    color: white; /* Light text for dark background */
+}
+
+.header-light {
+    background-color: white; /* Light background for dark theme */
+    color: white; /* Dark text for light background */
+}
+
+.bold-text {
+    font-weight: bold;
+}

@@ -1,0 +1,15 @@
+/* themes.css */
+
+body.light {
+    /* Light theme styles */
+    background-color: #fff;
+    /*color: #333;*/
+    /* other light theme styles... */
+}
+
+body.dark {
+    /* Dark theme styles */
+    background-color: #333;
+    color: #fff;
+    /* other dark theme styles... */
+}

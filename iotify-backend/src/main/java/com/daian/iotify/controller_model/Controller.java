@@ -30,5 +30,6 @@ public class Controller {
     )
     @ToString.Exclude
     private Set<ControllerType> controllerTypes;
-
+    private Boolean controllerState;
 }
+

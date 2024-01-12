@@ -27,5 +27,4 @@ public class IotifyApplication {
 		tomcat.addAdditionalTomcatConnectors(ajpConnector);
 		return tomcat;
 	}
-
 }

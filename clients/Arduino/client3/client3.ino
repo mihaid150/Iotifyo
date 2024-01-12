@@ -7,24 +7,50 @@
 const int RELAY_PIN = 5;
 bool isRelayOn = false;
 
+unsigned long lastPrintTime = 0;  // Variable to store the last print time
+const unsigned long printInterval = 10000; // Print interval in milliseconds
+
 String token;
 
-const char* ssidList[] = { "Mihăiță_Net", "Mihăiță_Net2", "Mihaita_Net_Mi8" };  // The SSID (name) of the Wi-Fi network you want to connect to
-const char* passwordList[] = { "mihai2001", "mihai2000", "mihai_daian" };       // The password of the Wi-Fi network
+const char* ssidList[] = {"Mihaita_Net_RPi5"};  // The SSID (name) of the Wi-Fi network you want to connect to
+const char* passwordList[] = {"KDT474wvr"};       // The password of the Wi-Fi network
 
 void connectToWifi();
 
 void setup() {
   Serial.begin(115200);
   connectToWifi();
+  sendAuthenticateRequest();
+  pinMode(RELAY_PIN, OUTPUT);
 }
 
 void loop() {
-
   if (WiFi.status() != WL_CONNECTED) {
     connectToWifi();
+    if (WiFi.status() == WL_CONNECTED) {
+      sendAuthenticateRequest();
+    }
+  } else {
+    // Check if data is available to read from the serial monitor
+    if (Serial.available() > 0) {
+      String input = Serial.readStringUntil('\n'); // Read the input until newline
+      input.trim(); // Remove any leading/trailing whitespace
+
+      // Check if the input is "relay"
+      if (input.equalsIgnoreCase("relay")) {
+        waitSignal(); // Call the function to perform the URL request
+      }
+    }
   }
-  waitSignal();
+  unsigned long currentMillis = millis();
+  if (currentMillis - lastPrintTime >= printInterval) {
+    // Update the lastPrintTime to the current time
+    lastPrintTime = currentMillis;
+
+    // Print the isRelayOn status to the Serial Monitor
+    Serial.print("Relay is ");
+    Serial.println(isRelayOn ? "ON" : "OFF");
+  }
 }
 
 void connectToWifi() {
@@ -65,33 +91,68 @@ void connectToWifi() {
   }
 }
 
+void sendAuthenticateRequest() {
+  WiFiClient client;  // Create a WiFiClient object to use with HTTPClient
+
+  HTTPClient http;
+  String email = "mdaian150@yahoo.com";
+  String password = "1234";
+
+  // Create the JSON payload
+  String payload = "{";
+  payload += "\"email\": \"" + email + "\",";
+  payload += "\"password\": \"" + password + "\"";
+  payload += "}";
+
+  http.begin(client, "http://192.168.4.1:8080/iotify/auth/authenticate");
+  http.addHeader("Content-Type", "application/json");
+
+  int httpCode = http.POST(payload);
+  delay(2000);
+  if (httpCode > 0) {
+    String response = http.getString();
+    Serial.println(httpCode);
+    Serial.println(response);
+    if (response.indexOf("token") != -1) {
+      int tokenStart = response.indexOf(":") + 2;
+      int tokenEnd = response.indexOf("\"", tokenStart);
+      token = response.substring(tokenStart, tokenEnd);
+    }
+    Serial.print("Token: ");
+    Serial.println(token);
+  } else {
+    Serial.println("Error sending the request ");
+    Serial.println(httpCode);
+  }
+
+  
+  http.end();
+}
 
 void waitSignal() {
   WiFiClient client;
   HTTPClient http;
-
-  String relay_url = "http://localhost:8080/iotify/controller/relay/get-state";
+  String relay_url = "http://192.168.4.1:8080/iotify/controller/relay/get-state";
 
   http.begin(client, relay_url);
+  http.addHeader("Content-Type", "application/json");
+  http.addHeader("Authorization", "Bearer " + token);
   int httpCode = http.GET();
 
   if(httpCode > 0) {
     if (httpCode == HTTP_CODE_OK) {
-      String payload = http.getString();
-      DynamicJsonDocument doc(1024);
-      deserializeJson(doc, payload);
+      String response = http.getString();
 
-      if (doc["value"] != isRelayOn) {
-        if (doc["value"] == true) {
-          digitalWrite(RELAY_PIN, HIGH);
-        } else {
-          digitalWrite(RELAY_PIN, LOW);
-        }
+      bool serverRelayState = response.equals("true");
+      if (serverRelayState != isRelayOn) {
+        isRelayOn = serverRelayState;
+        digitalWrite(RELAY_PIN, isRelayOn ? HIGH : LOW);
       }
     }
   } else {
     Serial.print("Error on HTTP request: ");
     Serial.println(http.errorToString(httpCode));
+    Serial.println(httpCode);
   }
 
   http.end();

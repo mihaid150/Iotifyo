@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/iotify/account")
-@CrossOrigin(origins = {"http://192.168.0.101:3000", "http://mihaiddomain150.go.ro:3000", "http://localhost:3000"})
+@CrossOrigin(origins = {"http://192.168.0.101:3000", "http://mihaiddomain150.go.ro:3000", "http://localhost:3000", "http://192.168.4.1:3000"})
 @RequiredArgsConstructor
 public class AccountController {
     private AccountService accountService;

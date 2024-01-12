@@ -11,7 +11,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/iotify/mail")
-@CrossOrigin(origins = {"http://192.168.0.101:3000", "http://mihaiddomain150.go.ro:3000", "http://localhost:3000"})
+@CrossOrigin(origins = {"http://192.168.0.101:3000", "http://mihaiddomain150.go.ro:3000", "http://localhost:3000", "http://192.168.4.1:3000"})
 @RequiredArgsConstructor
 public class MailController {
     private MailService emailService;

@@ -2,18 +2,11 @@
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
 #include <ESP8266HTTPClient.h>
-#include "DHT.h"
-
-#define DHTTYPE DHT22
-
-uint8_t DHTPin = 5; // pin D1
-
-DHT dht(DHTPin, DHTTYPE);
-
-
-String token;
+#include <Wire.h>
+#include "Adafruit_HTU21DF.h"
 
 float temperature, humidity;
+String token;
 
 const char* ssidList[] = {"Mihăiță_Net", "Mihăiță_Net2", "Mihaita_Net_Mi8", "Mihaita_Net_RPi5"};         // The SSID (name) of the Wi-Fi network you want to connect to
 const char* passwordList[] = {"mihai2001", "mihai2000", "mihai_daian", "KDT474wvr"};        // The password of the Wi-Fi network
@@ -23,17 +16,20 @@ void sendRegisterRequest();
 void sendDHTSensorData();
 void sendAuthenticateRequest();
 
+Adafruit_HTU21DF htu = Adafruit_HTU21DF();
+
 void setup() {
-  Serial.println("DHT22");
+  Serial.println("HTU21DF");
   Serial.begin(115200);
-  pinMode(DHTPin, INPUT);
-  dht.begin();
+  if (!htu.begin()) {
+    Serial.println("Check circuit. HTU21D not found!");
+    while (1);
+  }
   connectToWifi();
   sendAuthenticateRequest();
 }
 
 void loop() {
-
   if (WiFi.status() != WL_CONNECTED) {
     connectToWifi();
     if (WiFi.status() == WL_CONNECTED) {
@@ -41,9 +37,9 @@ void loop() {
     }
   } else {
   delay(2.5 * 60 * 1000);
-  sendDHTSensorData_Temperature();
+  sendHTUSensorData_Temperature();
   delay(2.5 * 60 * 1000);
-  sendDHTSensorData_Humidity();
+  sendHTUSensorData_Humidity();
   }
 }
 
@@ -123,13 +119,13 @@ void sendAuthenticateRequest() {
   http.end();
 }
 
-void sendDHTSensorData_Temperature() {
+void sendHTUSensorData_Temperature() {
 
-  temperature = dht.readTemperature();
+  temperature = htu.readTemperature();
   Serial.print("Temperature: ");
   Serial.print(temperature);
 
-  if (-40 < temperature && temperature < 80) {
+  if (-40 < temperature && temperature < 105) {
       // Create the JSON payload for temperature
     String payload = "{";
     payload += "\"value\": " + String(temperature);
@@ -139,7 +135,7 @@ void sendDHTSensorData_Temperature() {
     HTTPClient http;
 
     // Set the target URL
-    http.begin(client, "http://192.168.4.1:8080/iotify/Temperature/DHT22/save");
+    http.begin(client, "http://192.168.4.1:8080/iotify/Temperature/HTU21DF/save");
     // Add headers
     http.addHeader("Content-Type", "application/json");
     Serial.println("Bearer " + token);
@@ -159,9 +155,9 @@ void sendDHTSensorData_Temperature() {
   }
 }
 
-void sendDHTSensorData_Humidity() {
+void sendHTUSensorData_Humidity() {
 
-  humidity = dht.readHumidity();
+  humidity = htu.readHumidity();
   Serial.print(", Humidity: ");
   Serial.println(humidity);
 
@@ -175,7 +171,7 @@ void sendDHTSensorData_Humidity() {
     HTTPClient http;
 
     // Set the target URL
-    http.begin(client, "http://192.168.4.1:8080/iotify/Humidity/DHT22/save");
+    http.begin(client, "http://192.168.4.1:8080/iotify/Humidity/HTU21DF/save");
 
     // Add headers
     http.addHeader("Content-Type", "application/json");

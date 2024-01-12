@@ -30,6 +30,7 @@ public class SecurityConfiguration {
                     var corsConfiguration = new CorsConfiguration();
                     corsConfiguration.addAllowedOrigin("http://192.168.0.111");
                     corsConfiguration.addAllowedOrigin("http://192.168.0.101:3000");
+                    corsConfiguration.addAllowedOrigin("http://192.168.4.1:3000");
                     corsConfiguration.addAllowedOrigin("http://mihaiddomain150.go.ro:3000");
                     corsConfiguration.addAllowedOrigin("http://localhost:3000");
                     corsConfiguration.addAllowedHeader("*");

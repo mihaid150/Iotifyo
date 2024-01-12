@@ -7,7 +7,7 @@ export const useStatistics = () => {
     const { encryptionKey, ip } = useContext(AppContext);
     const sessionStorageWindow = window.sessionStorage;
 
-    const getHeatIndex = async () => {
+    const getHeatIndex = async (date) => {
         try {
             const encryptedToken = sessionStorageWindow.getItem("token");
             const token = CryptoJS.AES.decrypt(encryptedToken, encryptionKey)
@@ -18,7 +18,7 @@ export const useStatistics = () => {
                 Authorization: "Bearer " + token,
             };
             const response = await axios.get(
-                `http://${ip}/iotify/statistics/get-heat-index`,
+                `http://${ip}/iotify/statistics/get-heat-index/${date}`,
                 {
                     headers: headers,
                 }

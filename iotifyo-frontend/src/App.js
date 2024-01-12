@@ -27,7 +27,7 @@ function App() {
   const [isAdmin, setIsAdmin] = useState(localStorage.getItem("isAdmin") === "true");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [profileImageUrl, setProfileImageUrl] = useState("");
-  const ip = "mihaiddomain150.go.ro:8080"; // or localhost:8080 or 192.168.0.101 or mihaiddomain150.go.ro:8080
+  const ip = "192.168.4.1:8080"; // or localhost:8080 or 192.168.0.101 or mihaiddomain150.go.ro:8080 or 192.168.4.1
 
   
   const [userSpecs, setUserSpecs] = useState({

@@ -14,11 +14,13 @@ export const DateDropdownButton = (props) => {
     isOptionTypeSelected,
     setSensorDates,
     setIsOptionDataSelected,
+    setChosenDate
   } = props;
 
   const handleOptionSelect = (option) => {
     setSelectedOption(`${option.day}-${option.month}-${option.year}`);
     onOptionDateSelect(`${option.day}-${option.month}-${option.year}`);
+    setChosenDate(`${option.day}-${option.month}-${option.year}`);
   };
   const { getDate } = useGetData();
   useEffect(() => {
@@ -51,7 +53,6 @@ export const DateDropdownButton = (props) => {
     isOptionDataSelected,
     isOptionTypeSelected,
   ]);
-
   return (
     <Dropdown>
       <Dropdown.Toggle variant="secondary">{selectedOption}</Dropdown.Toggle>

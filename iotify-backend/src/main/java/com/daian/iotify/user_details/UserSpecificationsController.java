@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/iotify/user_specs")
-@CrossOrigin(origins = {"http://192.168.0.101:3000", "http://mihaiddomain150.go.ro:3000", "http://localhost:3000"})
+@CrossOrigin(origins = {"http://192.168.0.101:3000", "http://mihaiddomain150.go.ro:3000", "http://localhost:3000", "http://192.168.4.1:3000"})
 public class UserSpecificationsController {
     private final UserSpecificationsService userSpecificationsService;
     public UserSpecificationsController(UserSpecificationsService userSpecificationsService) {

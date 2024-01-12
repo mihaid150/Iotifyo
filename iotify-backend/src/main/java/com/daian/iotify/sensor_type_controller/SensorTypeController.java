@@ -8,7 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/iotify/sensors-types")
-@CrossOrigin(origins = {"http://192.168.0.101:3000", "http://mihaiddomain150.go.ro", "http://localhost:3000"})
+@CrossOrigin(origins = {"http://192.168.0.101:3000", "http://mihaiddomain150.go.ro", "http://localhost:3000", "http://192.168.4.1:3000"})
 public class SensorTypeController {
     private final SensorTypeService sensorTypeService;
 

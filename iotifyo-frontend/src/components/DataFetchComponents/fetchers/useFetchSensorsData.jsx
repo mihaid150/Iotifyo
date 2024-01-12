@@ -21,7 +21,6 @@ export const useFetchSensorsData = (
       optionType !== undefined
     ) {
       const sensorData = await getData(optionData, optionType, optionDate);
-      console.log(sensorData);
       if (sensorData) {
         setSensorData(sensorData);
       }
